@@ -1,6 +1,6 @@
 package sql.service;
 
-import com.example.economix_android.sql.model.Contacto;
+import sql.model.Contacto;
 
 import java.util.List;
 

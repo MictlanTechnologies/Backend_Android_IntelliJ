@@ -1,6 +1,6 @@
 package sql.service;
 
-import com.example.economix_android.sql.model.Ingreso;
+import sql.model.Ingreso;
 
 import java.util.List;
 

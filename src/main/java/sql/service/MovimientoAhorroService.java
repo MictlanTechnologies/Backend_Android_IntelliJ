@@ -1,6 +1,6 @@
 package sql.service;
 
-import com.example.economix_android.sql.model.MovimientoAhorro;
+import sql.model.MovimientoAhorro;
 
 import java.util.List;
 

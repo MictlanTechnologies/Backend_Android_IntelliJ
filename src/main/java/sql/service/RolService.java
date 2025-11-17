@@ -1,6 +1,6 @@
 package sql.service;
 
-import com.example.economix_android.sql.model.Rol;
+import sql.model.Rol;
 
 import java.util.List;
 

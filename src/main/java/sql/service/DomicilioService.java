@@ -1,6 +1,6 @@
 package sql.service;
 
-import com.example.economix_android.sql.model.Domicilio;
+import sql.model.Domicilio;
 
 import java.util.List;
 
