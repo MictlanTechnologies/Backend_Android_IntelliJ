@@ -44,4 +44,15 @@ public class UsuarioServiceImpl implements UsuarioService {
                 })
                 .orElse(null);
     }
+
+    @Override
+    public Usuario autenticar(String correo, String contrasena) {
+        if (correo == null || contrasena == null) {
+            return null;
+        }
+
+        return usuarioRepository.findByCorreo(correo.trim())
+                .filter(u -> u.getContrasenaUsuario() != null && u.getContrasenaUsuario().equals(contrasena))
+                .orElse(null);
+    }
 }

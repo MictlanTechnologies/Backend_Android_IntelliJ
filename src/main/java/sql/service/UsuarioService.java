@@ -10,4 +10,6 @@ public interface UsuarioService {
     Usuario save(Usuario usuario);
     void delete(Integer id);
     Usuario update(Integer id, Usuario usuario);
+
+    Usuario autenticar(String correo, String contrasena);
 }

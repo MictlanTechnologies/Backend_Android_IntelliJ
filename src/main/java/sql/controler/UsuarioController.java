@@ -4,6 +4,7 @@ import sql.dto.UsuarioDto;
 import sql.model.Usuario;
 import sql.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios.stream().map(this::toDto).collect(Collectors.toList()));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<UsuarioDto> getById(@PathVariable Integer id) {
         Usuario usuario = usuarioService.getById(id);
         if (usuario == null) {
@@ -41,7 +42,27 @@ public class UsuarioController {
         return ResponseEntity.ok(toDto(usuario));
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioDto> login(@RequestBody UsuarioDto credentials) {
+        if (credentials == null || credentials.getCorreo() == null || credentials.getContrasenaUsuario() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Usuario usuario = usuarioService.autenticar(credentials.getCorreo(), credentials.getContrasenaUsuario());
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (usuario.getEstado() != null && !usuario.getEstado().equalsIgnoreCase("ACTIVO")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        UsuarioDto dto = toDto(usuario);
+        dto.setContrasenaUsuario(null);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping("/{id:\\d+}")
     public ResponseEntity<UsuarioDto> update(@PathVariable Integer id, @RequestBody UsuarioDto usuarioDto) {
         Usuario updated = usuarioService.update(id, toEntity(usuarioDto));
         if (updated == null) {
@@ -50,7 +71,7 @@ public class UsuarioController {
         return ResponseEntity.ok(toDto(updated));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
