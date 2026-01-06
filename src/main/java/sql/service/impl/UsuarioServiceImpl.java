@@ -44,4 +44,9 @@ public class UsuarioServiceImpl implements UsuarioService {
                 })
                 .orElse(null);
     }
+
+    @Override
+    public Usuario findByPerfilUsuario(String perfilUsuario) {
+        return usuarioRepository.findByPerfilUsuario(perfilUsuario);
+    }
 }

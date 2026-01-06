@@ -5,12 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -32,4 +28,9 @@ public class Contacto {
 
     @Column(name = "idPersona")
     private Integer idPersona;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idPersona", insertable = false, updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Persona persona;
 }

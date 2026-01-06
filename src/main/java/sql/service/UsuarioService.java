@@ -10,4 +10,5 @@ public interface UsuarioService {
     Usuario save(Usuario usuario);
     void delete(Integer id);
     Usuario update(Integer id, Usuario usuario);
+    Usuario findByPerfilUsuario(String perfilUsuario);
 }

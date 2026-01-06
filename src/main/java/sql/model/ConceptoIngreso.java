@@ -5,12 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Data
@@ -36,4 +32,9 @@ public class ConceptoIngreso {
 
     @Column(name = "idIngresos")
     private Integer idIngresos;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idIngresos", insertable = false, updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Ingreso ingreso;
 }

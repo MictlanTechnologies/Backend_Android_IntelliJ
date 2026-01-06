@@ -1,11 +1,13 @@
 package sql.controler;
 
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import sql.dto.LoginRequest;
 import sql.dto.UsuarioDto;
 import sql.model.Usuario;
 import sql.service.UsuarioService;
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +40,16 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioDto> save(@RequestBody UsuarioDto usuarioDto) {
         Usuario usuario = usuarioService.save(toEntity(usuarioDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(toDto(usuario));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioDto> login(@RequestBody LoginRequest loginRequest) {
+        Usuario usuario = usuarioService.findByPerfilUsuario(loginRequest.getPerfilUsuario());
+        if (usuario == null || !usuario.getContrasenaUsuario().equals(loginRequest.getContrasenaUsuario())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         return ResponseEntity.ok(toDto(usuario));
     }
 
@@ -61,7 +73,7 @@ public class UsuarioController {
                 .idUsuario(usuario.getIdUsuario())
                 .perfilUsuario(usuario.getPerfilUsuario())
                 .correo(usuario.getCorreo())
-                .contrasenaUsuario(usuario.getContrasenaUsuario())
+                .contrasenaUsuario(null)
                 .fechaRegistro(usuario.getFechaRegistro())
                 .estado(usuario.getEstado())
                 .build();
