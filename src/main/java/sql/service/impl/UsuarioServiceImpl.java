@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -43,5 +44,14 @@ public class UsuarioServiceImpl implements UsuarioService {
                     return usuarioRepository.save(existing);
                 })
                 .orElse(null);
+    }
+
+    @Override
+    public Usuario authenticate(String perfilUsuario, String contrasena) {
+        Optional<Usuario> usuario = usuarioRepository.findByPerfilUsuario(perfilUsuario);
+        if (usuario.isPresent() && usuario.get().getContrasenaUsuario().equals(contrasena)) {
+            return usuario.get();
+        }
+        return null;
     }
 }

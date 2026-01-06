@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,18 @@ public class UsuarioController {
         return ResponseEntity.ok(toDto(usuario));
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        Usuario usuario = usuarioService.authenticate(request.getPerfilUsuario(), request.getContrasenaUsuario());
+        if (usuario == null) {
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.ok(Map.of(
+                "idUsuario", usuario.getIdUsuario(),
+                "perfilUsuario", usuario.getPerfilUsuario()
+        ));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDto> update(@PathVariable Integer id, @RequestBody UsuarioDto usuarioDto) {
         Usuario updated = usuarioService.update(id, toEntity(usuarioDto));
@@ -61,7 +74,6 @@ public class UsuarioController {
                 .idUsuario(usuario.getIdUsuario())
                 .perfilUsuario(usuario.getPerfilUsuario())
                 .correo(usuario.getCorreo())
-                .contrasenaUsuario(usuario.getContrasenaUsuario())
                 .fechaRegistro(usuario.getFechaRegistro())
                 .estado(usuario.getEstado())
                 .build();
@@ -76,5 +88,11 @@ public class UsuarioController {
                 .fechaRegistro(dto.getFechaRegistro())
                 .estado(dto.getEstado())
                 .build();
+    }
+
+    @lombok.Data
+    public static class LoginRequest {
+        private String perfilUsuario;
+        private String contrasenaUsuario;
     }
 }
