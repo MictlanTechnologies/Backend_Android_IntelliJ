@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.time.LocalDate;
 
 @Data
@@ -34,7 +35,9 @@ public class Persona {
     @Column(name = "apellidoM", length = 50)
     private String apellidoM;
 
-    @Column(name = "fechaNacimiento")
+    // La BD del script del proyecto no incluye fecha de nacimiento; se conserva
+    // para el contrato con la app pero NO se persiste.
+    @Transient
     private LocalDate fechaNacimiento;
 
     @Column(name = "idUsuario")

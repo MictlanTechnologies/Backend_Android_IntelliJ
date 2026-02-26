@@ -1,5 +1,6 @@
 package sql.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,8 @@ public class DomicilioDto {
     private String ciudad;
     private String calle;
     private String colonia;
+
+    @JsonAlias({"número"})
     private String numero;
     private String codigoPostal;
     private Integer idPersona;

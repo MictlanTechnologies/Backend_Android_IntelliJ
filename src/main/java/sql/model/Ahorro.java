@@ -1,19 +1,30 @@
 package sql.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Entidad JPA para la tabla tbl_ahorro.
+ *
+ * Columnas según el script SQL del proyecto:
+ *  - idAhorro (PK)
+ *  - fechaAhorro
+ *  - fechaActualizaciónA
+ *  - periodoTAhorro
+ *  - montoAhorro
+ *  - idIngresos (FK)
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,21 +37,19 @@ public class Ahorro {
     @Column(name = "idAhorro")
     private Integer idAhorro;
 
-    @Column(name = "idUsuario", nullable = false)
-    private Integer idUsuario;
+    @Column(name = "fechaAhorro")
+    private LocalDate fechaAhorro;
 
-    @Column(name = "nombreObjetivo", nullable = false, length = 100)
-    private String nombreObjetivo;
+    // En MySQL el nombre de columna tiene acento.
+    @Column(name = "fechaActualizaciónA")
+    private LocalDate fechaActualizacionA;
 
-    @Column(name = "descripcionObjetivo")
-    private String descripcionObjetivo;
+    @Column(name = "periodoTAhorro", length = 50)
+    private String periodoTAhorro;
 
-    @Column(name = "meta", nullable = false)
-    private BigDecimal meta;
+    @Column(name = "montoAhorro")
+    private BigDecimal montoAhorro;
 
-    @Column(name = "montoAhorrado", nullable = false)
-    private BigDecimal montoAhorrado;
-
-    @Column(name = "fechaLimite")
-    private LocalDate fechaLimite;
+    @Column(name = "idIngresos")
+    private Integer idIngresos;
 }

@@ -1,5 +1,6 @@
 package sql.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,8 @@ import java.math.BigDecimal;
 public class ConceptoGastoDto {
     private Integer idConcepto;
     private String nombreConcepto;
+
+    @JsonAlias({"descripciónConcepto"})
     private String descripcionConcepto;
     private BigDecimal precioConcepto;
     private Integer idGastos;

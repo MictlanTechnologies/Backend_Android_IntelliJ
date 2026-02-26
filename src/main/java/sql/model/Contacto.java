@@ -27,7 +27,8 @@ public class Contacto {
     @Column(name = "numCelular", length = 20)
     private String numCelular;
 
-    @Column(name = "correoAlterno", length = 100)
+    // En el script SQL del proyecto la columna se llama `Correo`.
+    @Column(name = "Correo", length = 100)
     private String correoAlterno;
 
     @Column(name = "idPersona")

@@ -28,7 +28,8 @@ public class ConceptoGasto {
     @Column(name = "nombreConcepto", length = 100)
     private String nombreConcepto;
 
-    @Column(name = "descripcionConcepto")
+    // En el script SQL del proyecto la columna se llama `descripciónConcepto`.
+    @Column(name = "descripciónConcepto")
     private String descripcionConcepto;
 
     @Column(name = "precioConcepto")

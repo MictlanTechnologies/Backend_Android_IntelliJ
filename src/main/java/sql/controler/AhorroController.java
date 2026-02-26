@@ -59,24 +59,22 @@ public class AhorroController {
     private AhorroDto toDto(Ahorro ahorro) {
         return AhorroDto.builder()
                 .idAhorro(ahorro.getIdAhorro())
-                .idUsuario(ahorro.getIdUsuario())
-                .nombreObjetivo(ahorro.getNombreObjetivo())
-                .descripcionObjetivo(ahorro.getDescripcionObjetivo())
-                .meta(ahorro.getMeta())
-                .montoAhorrado(ahorro.getMontoAhorrado())
-                .fechaLimite(ahorro.getFechaLimite())
+                .idIngresos(ahorro.getIdIngresos())
+                .montoAhorro(ahorro.getMontoAhorro())
+                .periodoTAhorro(ahorro.getPeriodoTAhorro())
+                .fechaAhorro(ahorro.getFechaAhorro())
+                .fechaActualizacionA(ahorro.getFechaActualizacionA())
                 .build();
     }
 
     private Ahorro toEntity(AhorroDto dto) {
         return Ahorro.builder()
                 .idAhorro(dto.getIdAhorro())
-                .idUsuario(dto.getIdUsuario())
-                .nombreObjetivo(dto.getNombreObjetivo())
-                .descripcionObjetivo(dto.getDescripcionObjetivo())
-                .meta(dto.getMeta())
-                .montoAhorrado(dto.getMontoAhorrado())
-                .fechaLimite(dto.getFechaLimite())
+                .idIngresos(dto.getIdIngresos())
+                .montoAhorro(dto.getMontoAhorro())
+                .periodoTAhorro(dto.getPeriodoTAhorro())
+                .fechaAhorro(dto.getFechaAhorro())
+                .fechaActualizacionA(dto.getFechaActualizacionA())
                 .build();
     }
 }

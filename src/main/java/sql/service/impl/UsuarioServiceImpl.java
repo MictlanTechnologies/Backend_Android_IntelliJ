@@ -26,6 +26,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public Usuario findByPerfilUsuario(String perfilUsuario) {
+        return usuarioRepository.findByPerfilUsuario(perfilUsuario).orElse(null);
+    }
+
+    @Override
+    public boolean existsByPerfilUsuario(String perfilUsuario) {
+        return usuarioRepository.existsByPerfilUsuario(perfilUsuario);
+    }
+
+    @Override
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }

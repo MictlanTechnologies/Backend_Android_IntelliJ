@@ -1,9 +1,11 @@
 package sql.controler;
 
+import sql.dto.LoginRequest;
 import sql.dto.UsuarioDto;
 import sql.model.Usuario;
 import sql.service.UsuarioService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +39,48 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioDto> save(@RequestBody UsuarioDto usuarioDto) {
+        // Validación mínima (evita 500 por nulls)
+        if (usuarioDto == null
+                || usuarioDto.getPerfilUsuario() == null
+                || usuarioDto.getPerfilUsuario().isBlank()
+                || usuarioDto.getContrasenaUsuario() == null
+                || usuarioDto.getContrasenaUsuario().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        // Si ya existe un perfil, devolvemos 409 (la app lo maneja como "ya registrado").
+        if (usuarioService.existsByPerfilUsuario(usuarioDto.getPerfilUsuario())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         Usuario usuario = usuarioService.save(toEntity(usuarioDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(toDto(usuario));
+    }
+
+    /**
+     * Login para Android.
+     * La app hace POST a /economix/api/usuarios/login con {perfilUsuario, contrasenaUsuario}
+     */
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioDto> login(@RequestBody LoginRequest request) {
+        if (request == null
+                || request.getPerfilUsuario() == null
+                || request.getPerfilUsuario().isBlank()
+                || request.getContrasenaUsuario() == null
+                || request.getContrasenaUsuario().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Usuario usuario = usuarioService.findByPerfilUsuario(request.getPerfilUsuario());
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // Comparación directa (sin hash) porque así está actualmente el proyecto.
+        if (!request.getContrasenaUsuario().equals(usuario.getContrasenaUsuario())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         return ResponseEntity.ok(toDto(usuario));
     }
 
@@ -60,10 +103,7 @@ public class UsuarioController {
         return UsuarioDto.builder()
                 .idUsuario(usuario.getIdUsuario())
                 .perfilUsuario(usuario.getPerfilUsuario())
-                .correo(usuario.getCorreo())
                 .contrasenaUsuario(usuario.getContrasenaUsuario())
-                .fechaRegistro(usuario.getFechaRegistro())
-                .estado(usuario.getEstado())
                 .build();
     }
 
@@ -71,10 +111,7 @@ public class UsuarioController {
         return Usuario.builder()
                 .idUsuario(dto.getIdUsuario())
                 .perfilUsuario(dto.getPerfilUsuario())
-                .correo(dto.getCorreo())
                 .contrasenaUsuario(dto.getContrasenaUsuario())
-                .fechaRegistro(dto.getFechaRegistro())
-                .estado(dto.getEstado())
                 .build();
     }
 }

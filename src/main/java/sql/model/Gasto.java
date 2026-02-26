@@ -1,19 +1,26 @@
 package sql.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Entidad JPA para la tabla tbl_gastos.
+ *
+ * Importante: en el script SQL del proyecto, algunas columnas usan acentos:
+ *  - `descripciónGasto`
+ *  - `artículoGasto`
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,19 +33,10 @@ public class Gasto {
     @Column(name = "idGastos")
     private Integer idGastos;
 
-    @Column(name = "idUsuario", nullable = false)
-    private Integer idUsuario;
-
-    @Column(name = "idCategoria")
-    private Integer idCategoria;
-
-    @Column(name = "idPresupuesto")
-    private Integer idPresupuesto;
-
-    @Column(name = "descripcionGasto", nullable = false)
+    @Column(name = "descripciónGasto", nullable = false)
     private String descripcionGasto;
 
-    @Column(name = "articuloGasto", nullable = false, length = 100)
+    @Column(name = "artículoGasto", nullable = false, length = 100)
     private String articuloGasto;
 
     @Column(name = "montoGasto", nullable = false)
@@ -49,4 +47,7 @@ public class Gasto {
 
     @Column(name = "periodoGastos", nullable = false, length = 50)
     private String periodoGastos;
+
+    @Column(name = "idUsuario", nullable = false)
+    private Integer idUsuario;
 }

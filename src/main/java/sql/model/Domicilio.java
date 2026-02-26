@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Data
 @AllArgsConstructor
@@ -33,10 +34,13 @@ public class Domicilio {
     @Column(name = "colonia", length = 100)
     private String colonia;
 
-    @Column(name = "numero", length = 10)
+    // En el script SQL del proyecto la columna se llama `número`.
+    @Column(name = "número", length = 10)
     private String numero;
 
-    @Column(name = "codigoPostal", length = 10)
+    // La BD del proyecto no incluye código postal; se conserva en el modelo
+    // para no romper el contrato con la app, pero NO se persiste.
+    @Transient
     private String codigoPostal;
 
     @Column(name = "idPersona")
